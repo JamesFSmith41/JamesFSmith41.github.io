@@ -4,6 +4,7 @@ module.exports = {
   theme: {
     colors: {
       'main-background' : 'hsl(217, 0%, 98%)',
+      'main-hover': 'hsl(217, 0%, 86%)',
       'text-color': 'hsl(223, 100%, 0%)',
       'main-shadow': 'hsl(222, 96%, 11%)',
       'main-gradient-start': 'hsl(222, 20%, 11%)',
