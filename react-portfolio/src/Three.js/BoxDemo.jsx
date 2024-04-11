@@ -51,7 +51,7 @@ function Plane(props) {
     {...props}
     >
     <planeGeometry args={[1,1]} />
-    <meshStandardMaterial color={'green'} />
+    <meshStandardMaterial  />
     </mesh>
   )
 }
@@ -87,37 +87,39 @@ function Arch() {
       onPointerOut={(event) => handleOut()}
       >
       <primitive object={gltf.scene} scale={0.4} position-z={-2*Math.PI} position-y={-Math.PI/2 - Math.PI/4} position-x={0} rotation-x={Math.PI *2} rotation-y={Math.PI/2 - 1}/>
-      <meshStandardMaterial color={hovered ? 'hotpink' : 'red'}  />
+      <meshStandardMaterial />
     </mesh>
   )
 }
 export function BoxDemo(color) {
  let [lightPos, setPos] = useState(10);
-  useEffect(() => {
-    if (lightPos > 100) {
-      lightPos = -101
-    }
+ let [change, setChange] = useState(0.01)
 
+  useEffect(() => {
+    if (lightPos > 20) {
+      setChange(Math.abs(change) * -1)
+
+    }
+    else if (lightPos < Math.PI) {
+      setChange(Math.abs(change))
+
+    }
+   // console.log(lightPos)
     const intervalId = setInterval(() => {
-      if (lightPos > 10) {
-        setPos(-10);
-      }
-      else {
-        setPos(lightPos + 0.01);
-      }
+      setPos(lightPos + change);
     }, 1);
     return () => clearInterval(intervalId);
     
   }, [lightPos])
     return(
         <Canvas style={{background: color.color}}   >
-          <ambientLight color={"#ff7b29"}intensity={-Math.PI} />
-          <spotLight position={[lightPos, lightPos, lightPos]} angle={0.15} penumbra={1} decay={0} intensity={4} />
-          <pointLight position={[-lightPos, -lightPos, -lightPos]} decay={0} intensity={Math.PI} />
+          <ambientLight color={color.color}intensity={Math.PI} />
+          <spotLight position={[lightPos, lightPos, lightPos]} angle={0.15} penumbra={1} decay={0} intensity={Math.PI} color={color.color}/>
+          <pointLight position={[-lightPos, -lightPos, -lightPos]} decay={0} intensity={Math.PI} color={color.color}/>
           {/* <Box position={[-1.2, 0, 0]} />
           <Box position={[1.2, 0, 0]} /> */}
           <Arch/>
-          <Plane position-y={-Math.PI/2} rotation-x={-Math.PI/2} scale={22} />
+          <Plane position-y={-Math.PI/2} rotation-x={-Math.PI/2} scale={22} color={color.color}/>
         </Canvas>
     )
 }
